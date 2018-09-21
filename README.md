@@ -1,4 +1,4 @@
-When adding your code make sure you update the variables to match your location:
+When adding your code make sure you update the variables to match your location:<br>
     state = "VIC"
     city = "Melbourne"
     fire_district = "Central"
