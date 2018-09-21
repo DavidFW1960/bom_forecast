@@ -1,0 +1,3 @@
+bom_forecast:
+  module: bom_forecast
+  class: BOMForecast
