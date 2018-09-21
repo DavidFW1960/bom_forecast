@@ -12,23 +12,23 @@ Possible values for state:<br>
     "VIC"<br>
     "WA"<br>
 
-Possible values for city:
-    "Darwin"
-    "Canberra"
-    "Sydney"
-    "Newcastle"
-    "Central Coast"
-    "Wollongong"
-    "Alpine Centres"
-    "Brisbane"
-    "Gold Coast"
-    "Sunshine Coast"
-    "Adelaide"
-    "Hobart"
-    "Launceston"
-    "Melbourne"
-    "Geelong"
-    "Mornington Peninsula"
-    "Perth"
-    
+Possible values for city:<br>
+    "Darwin"<br>
+    "Canberra"<br>
+    "Sydney"<br>
+    "Newcastle"<br>
+    "Central Coast"<br>
+    "Wollongong"<br>
+    "Alpine Centres"<br>
+    "Brisbane"<br>
+    "Gold Coast"<br>
+    "Sunshine Coast"<br>
+    "Adelaide"<br>
+    "Hobart"<br>
+    "Launceston"<br>
+    "Melbourne"<br>
+    "Geelong"<br>
+    "Mornington Peninsula"<br>
+    "Perth"<br>
+    <br>
 For all the possible values for fire_district, please see bom_forecast.py
