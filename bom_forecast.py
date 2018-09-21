@@ -63,8 +63,8 @@ class BOMForecast(hass.Hass):
         }
 
         fire_danger_rating_fire_district = {
-        	# VIC fire districts can be found here:
-        	# http://www.bom.gov.au/vic/forecasts/fire-forecasts.shtml
+            # VIC fire districts can be found here:
+            # http://www.bom.gov.au/vic/forecasts/fire-forecasts.shtml
             "Mallee": "VIC_FW001",
             "Wimmera": "VIC_FW002",
             "Northern Country": "VIC_FW003",
@@ -74,8 +74,8 @@ class BOMForecast(hass.Hass):
             "Central": "VIC_FW007",
             "West and South Gippsland": "VIC_FW006",
             "East Gippsland": "VIC_FW005",
-        	# QLD fire districts can be found here:
-        	# http://www.bom.gov.au/qld/forecasts/fire-forecasts.shtml
+            # QLD fire districts can be found here:
+            # http://www.bom.gov.au/qld/forecasts/fire-forecasts.shtml
             "Peninsula": "QLD_FW001",
             "Gulf Country": "QLD_FW002",
             "Northern Goldfields and Upper Flinders": "QLD_FW003",
