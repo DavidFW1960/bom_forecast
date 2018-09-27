@@ -1,3 +1,18 @@
+---
+layout: page
+title: "BOM Australia Sensor"
+description: "Instructions on how to integrate Bureau of Meteorology Australia weather conditions into Home Assistant."
+date: 2016-09-13 18:00
+sidebar: true
+comments: false
+sharing: true
+footer: true
+logo: bom.png
+ha_category: Weather
+ha_release: 0.29
+ha_iot_class: "Cloud Polling"
+---
+
 The `bom` sensor platform uses the [Australian Bureau of Meteorology (BOM)](http://www.bom.gov.au) as a source for current (half-hourly) meteorological data.
 
 - Each sensor will be given the `device_id` of "bom [optionalname] friendlyname units"
