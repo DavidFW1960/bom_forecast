@@ -20,6 +20,7 @@ sensor:
       - 'chance_of_rain'
       - 'possible_rainfall'
       - 'summary'
+      - 'detailed_summary'
 ```
 
 To get the Product ID for any BOM city:
