@@ -14,6 +14,7 @@ sensor:
     name: Melbourne
     forecast_days: 3
     rest_of_today: True
+    friendly: True
     monitored_conditions:
       - 'max'
       - 'min'
@@ -33,4 +34,5 @@ Configuration variables:
 - **name** (*Optional*): The name you would like to give to the weather forecast.
 - **forecast_days** (*Optional*): The number of days of forecast you would like, maximum is 6. If not given, defaults to 6.
 - **rest_of_today** (*Optional*): Would you like to create a sensor for the forecast for the rest of today. Defaults to true.
+- **friendly** (*Optional*): Friendly mode will only create one sensor per day of forecast, and will have all the forecast information as sensor attributes. Defaults to false.
 - **monitored_conditions** (*Required*): A list of the conditions to monitor.
