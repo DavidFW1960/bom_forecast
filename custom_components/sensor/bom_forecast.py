@@ -15,7 +15,7 @@ import voluptuous as vol
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import (
     CONF_MONITORED_CONDITIONS, TEMP_CELSIUS, CONF_NAME, ATTR_ATTRIBUTION,
-    ATTR_FRIENDLY_NAME, ATTR_ENTITY_ID, CONF_LATITUDE, CONF_LONGITUDE, CONF_ICON)
+    ATTR_FRIENDLY_NAME, CONF_LATITUDE, CONF_LONGITUDE, CONF_ICON)
 from homeassistant.helpers.entity import Entity
 from homeassistant.util import Throttle
 import homeassistant.helpers.config_validation as cv
@@ -39,7 +39,7 @@ CONF_PRODUCT_ID = 'product_id'
 CONF_REST_OF_TODAY = 'rest_of_today'
 CONF_FRIENDLY = 'friendly'
 
-MIN_TIME_BETWEEN_UPDATES = datetime.timedelta(minutes=120)
+MIN_TIME_BETWEEN_UPDATES = datetime.timedelta(minutes=60)
 
 PRODUCT_ID_LAT_LON_LOCATION = {
     'IDD10150': [-12.47, 130.85, 'Darwin'],
