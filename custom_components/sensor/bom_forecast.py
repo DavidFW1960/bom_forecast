@@ -6,6 +6,7 @@ https://home-assistant.io/components/sensor.bom_forecast
 """
 import datetime
 import ftplib
+import io
 import logging
 import re
 import xml
@@ -241,8 +242,8 @@ class BOMForecastSensorFriendly(Entity):
         weather_forecast_datetime = datetime.datetime.strptime(weather_forecast_date_string, "%Y-%m-%dT%H%M%S%z")
         attr[ATTR_FRIENDLY_NAME] =  weather_forecast_datetime.strftime("%a, %e %b")            
         
-        attr[ATTR_PRODUCT_ID] = self._product_id
-        attr[ATTR_PRODUCT_LOCATION] = PRODUCT_ID_LAT_LON_LOCATION[self._product_id][2]
+        attr["Product ID"] = self._product_id
+        attr["Product Location"] = PRODUCT_ID_LAT_LON_LOCATION[self._product_id][2]
         
         return attr
 
@@ -288,13 +289,14 @@ class BOMForecastData:
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data from BOM."""
+        file_obj = io.BytesIO()
         ftp = ftplib.FTP("ftp.bom.gov.au")
         ftp.login()
         ftp.cwd("anon/gen/fwo/")
-        ftp.retrbinary("RETR " + self._product_id + ".xml",
-        open('bom_forecast.xml', 'wb').write)
+        ftp.retrbinary("RETR " + self._product_id + ".xml", file_obj.write)
+        file_obj.seek(0)
         ftp.quit()
-        tree = xml.etree.ElementTree.parse('bom_forecast.xml')
+        tree = xml.etree.ElementTree.parse(file_obj)
         self._data = tree.getroot()
 
 def closest_product_id(lat, lon):
