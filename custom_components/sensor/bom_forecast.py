@@ -15,27 +15,31 @@ import voluptuous as vol
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import (
     CONF_MONITORED_CONDITIONS, TEMP_CELSIUS, CONF_NAME, ATTR_ATTRIBUTION,
-    CONF_LATITUDE, CONF_LONGITUDE, CONF_ICON)
+    ATTR_FRIENDLY_NAME, ATTR_ENTITY_ID, CONF_LATITUDE, CONF_LONGITUDE, CONF_ICON)
 from homeassistant.helpers.entity import Entity
 from homeassistant.util import Throttle
 import homeassistant.helpers.config_validation as cv
 
 _FIND_QUERY = "./forecast/area[@type='location']/forecast-period[@index='{}']/*[@type='{}']"
+_FIND_QUERY_2 = "./forecast/area[@type='metropolitan']/forecast-period[@index='{}']/text[@type='forecast']"
+            
 _LOGGER = logging.getLogger(__name__)
 
-ATTR_SENSOR_ID = 'sensor_id'
+ATTR_ICON = 'icon'
 ATTR_ISSUE_TIME_LOCAL = 'issue_time_local'
 ATTR_PRODUCT_ID = 'product_id'
 ATTR_PRODUCT_LOCATION = 'product_location'
 ATTR_PRODUCT_NAME = 'product_name'
+ATTR_SENSOR_ID = 'sensor_id'
 ATTR_START_TIME_LOCAL = 'start_time_local'
 
 CONF_ATTRIBUTION = 'Data provided by the Australian Bureau of Meteorology'
 CONF_DAYS = 'forecast_days'
 CONF_PRODUCT_ID = 'product_id'
 CONF_REST_OF_TODAY = 'rest_of_today'
+CONF_FRIENDLY = 'friendly'
 
-MIN_TIME_BETWEEN_UPDATES = datetime.timedelta(minutes=35)
+MIN_TIME_BETWEEN_UPDATES = datetime.timedelta(minutes=120)
 
 PRODUCT_ID_LAT_LON_LOCATION = {
     'IDD10150': [-12.47, 130.85, 'Darwin'],
@@ -64,6 +68,25 @@ SENSOR_TYPES = {
     'possible_rainfall': ['precipitation_range', 'Possible Rainfall', None],
     'summary': ['precis', 'Summary', None],
     'detailed_summary': ['forecast', 'Detailed Summary', None],
+    'icon': ['forecast_icon_code', 'Icon', None],
+}
+
+ICON_MAPPING = {
+    "1": "mdi:weather-sunny",	
+    "2": "mdi:weather-night",	
+    "3": "mdi:weather-partlycloudy",	
+    "4": "mdi:weather-cloudy",
+    "6": "mdi:weather-sunset",
+    "8": "mdi:weather-rainy",
+    "9": "mdi:weather-windy",
+    "10": "mdi:weather-sunset",
+    "11": "mdi:weather-rainy",
+    "12": "mdi:weather-pouring",
+    "13": "mdi:weather-sunset",
+    "14": "mdi:weather-snowy",
+    "15": "mdi:weather-snowy",
+    "16": "mdi:weather-lightning",
+    "17": "mdi:weather-rainy"                        
 }
 
 def validate_days(days):
@@ -84,6 +107,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_MONITORED_CONDITIONS, default=[]):
         vol.All(cv.ensure_list, [vol.In(SENSOR_TYPES)]),
     vol.Optional(CONF_DAYS, default=6): validate_days,
+    vol.Optional(CONF_FRIENDLY, default=False): cv.boolean,
     vol.Optional(CONF_NAME, default=''): cv.string,
     vol.Optional(CONF_PRODUCT_ID, default=''): validate_product_id,
     vol.Optional(CONF_REST_OF_TODAY, default=True): cv.boolean,
@@ -91,8 +115,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_entities, discovery_info=None):
 
-    monitored_conditions = config.get(CONF_MONITORED_CONDITIONS)
     days = config.get(CONF_DAYS)
+    friendly = config.get(CONF_FRIENDLY)
+    monitored_conditions = config.get(CONF_MONITORED_CONDITIONS)
     name = config.get(CONF_NAME)
     product_id = config.get(CONF_PRODUCT_ID)
     rest_of_today = config.get(CONF_REST_OF_TODAY)
@@ -113,10 +138,15 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     else:
         start = 1
 
-    for index in range(start, config.get(CONF_DAYS)+1):
-        for condition in monitored_conditions:    
-            add_entities([BOMForecastSensor(bom_forecast_data, condition,
-            index, name, product_id)])
+    if friendly:
+        for index in range(start, config.get(CONF_DAYS)+1):
+            add_entities([BOMForecastSensorFriendly(bom_forecast_data, monitored_conditions,
+            index, name, product_id)])    	
+    else:
+        for index in range(start, config.get(CONF_DAYS)+1):
+            for condition in monitored_conditions:    
+                add_entities([BOMForecastSensor(bom_forecast_data, condition,
+                index, name, product_id)])
 
 
 class BOMForecastSensor(Entity):
@@ -134,7 +164,7 @@ class BOMForecastSensor(Entity):
     @property
     def name(self):
         """Return the name of the sensor."""
-        if self._name is None:
+        if not self._name:
             return 'BOM {} {}'.format(
             SENSOR_TYPES[self._condition][1], self._index)
         return 'BOM {} {} {}'.format(self._name,
@@ -171,6 +201,55 @@ class BOMForecastSensor(Entity):
         """Fetch new state data for the sensor."""
         self._bom_forecast_data.update()
 
+class BOMForecastSensorFriendly(Entity):
+    """Implementation of a user friendly BOM forecast sensor."""
+
+    def __init__(self, bom_forecast_data, conditions, index, name, product_id):
+        """Initialize the sensor."""
+        self._bom_forecast_data = bom_forecast_data
+        self._conditions = conditions
+        self._index = index
+        self._name = name
+        self._product_id = product_id
+        self.update()
+        
+    @property
+    def unique_id(self):
+        """Return the entity id of the sensor."""
+        if not self._name:
+            return '{}'.format(self._index)
+        return '{}_{}'.format(self._name, self._index)
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._bom_forecast_data.get_reading('summary', self._index)
+
+    @property
+    def device_state_attributes(self):
+        """Return the state attributes of the sensor."""
+        attr = {
+            ATTR_ICON: self._bom_forecast_data.get_reading('icon', self._index),
+            ATTR_ATTRIBUTION: CONF_ATTRIBUTION,
+        }
+        for condition in self._conditions:
+        	attr[SENSOR_TYPES[condition][1]] = self._bom_forecast_data.get_reading(condition, self._index),
+        if self._name:
+            attr['Name'] = self._name
+
+        weather_forecast_date_string = self._bom_forecast_data.get_start_time_local(self._index).replace(":","")
+        weather_forecast_datetime = datetime.datetime.strptime(weather_forecast_date_string, "%Y-%m-%dT%H%M%S%z")
+        attr[ATTR_FRIENDLY_NAME] =  weather_forecast_datetime.strftime("%a, %e %b")            
+        
+        attr[ATTR_PRODUCT_ID] = self._product_id
+        attr[ATTR_PRODUCT_LOCATION] = PRODUCT_ID_LAT_LON_LOCATION[self._product_id][2]
+        
+        return attr
+
+    def update(self):
+        """Fetch new state data for the sensor."""
+        self._bom_forecast_data.update()
+
 class BOMForecastData:
     """Get data from BOM."""
 
@@ -180,8 +259,13 @@ class BOMForecastData:
 
     def get_reading(self, condition, index):
         """Return the value for the given condition."""
+        if condition == 'detailed_summary':
+        	return self._data.find(_FIND_QUERY_2.format(index)).text
+        
         find_query = (_FIND_QUERY.format(index, SENSOR_TYPES[condition][0]))
         state = self._data.find(find_query)
+        if condition == 'icon':
+        	return ICON_MAPPING[state.text]
         if state is None:
             return 'n/a'
         else:
@@ -197,9 +281,9 @@ class BOMForecastData:
 
     def get_start_time_local(self, index):
         """Return the start time of forecast."""
-        return self._data.find("./forecast/area[@type='location']"
-                               "/forecast-period[@index='{}']".format(index))
-                               .get("start-time-local")
+        return self._data.find("./forecast/area[@type='location']/"
+                               "forecast-period[@index='{}']".format(
+                               	index)).get("start-time-local")
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
