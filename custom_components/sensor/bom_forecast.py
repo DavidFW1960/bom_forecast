@@ -265,7 +265,7 @@ class BOMForecastData:
             if PRODUCT_ID_LAT_LON_LOCATION[self._product_id][3] == 'City':
                 return self._data.find(_FIND_QUERY_2.format(index)).text
             else:
-                return self._data.find(_FIND_QUERY.format(index, 'forecast'))
+                return self._data.find(_FIND_QUERY.format(index, 'forecast')).text
         
         find_query = (_FIND_QUERY.format(index, SENSOR_TYPES[condition][0]))
         state = self._data.find(find_query)
