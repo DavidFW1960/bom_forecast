@@ -43,24 +43,24 @@ CONF_FRIENDLY = 'friendly'
 MIN_TIME_BETWEEN_UPDATES = datetime.timedelta(minutes=60)
 
 PRODUCT_ID_LAT_LON_LOCATION = {
-    'IDD10150': [-12.47, 130.85, 'Darwin'],
-    'IDN10035': [-35.31, 149.20, 'Canberra'],
-    'IDN10064': [-33.86, 151.21, 'Sydney'],
-    'IDN11051': [-32.89, 151.71, 'Newcastle'],
-    'IDN11052': [-33.44, 151.36, 'Central Coast'],
-    'IDN11053': [-34.56, 150.79, 'Wollongong'],
-    'IDN11055': [-36.49, 148.29, 'Alpine Centres'],
-    'IDQ10095': [-27.48, 153.04, 'Brisbane'],
-    'IDQ10610': [-27.94, 153.43, 'Gold Coast'],
-    'IDQ10611': [-26.60, 153.09, 'Sunshine Coast'],
-    'IDS10034': [-34.93, 138.58, 'Adelaide'],
-    'IDT13600': [-42.89, 147.33, 'Hobart'],
-    'IDT13610': [-41.42, 147.12, 'Launceston'],
-    'IDV10450': [-37.83, 144.98, 'Melbourne'],
-    'IDV10701': [-38.17, 144.38, 'Geelong'],
-    'IDV10702': [-38.31, 145.00, 'Mornington Peninsula'],
-    'IDW12300': [-31.92, 115.87, 'Perth'],
-    'IDQ10914': [-21.12, 149.22, 'Mackay']
+    'IDD10150': [-12.47, 130.85, 'Darwin', 'City'],
+    'IDN10035': [-35.31, 149.20, 'Canberra', 'City'],
+    'IDN10064': [-33.86, 151.21, 'Sydney', 'City'],
+    'IDN11051': [-32.89, 151.71, 'Newcastle', 'City'],
+    'IDN11052': [-33.44, 151.36, 'Central Coast', 'City'],
+    'IDN11053': [-34.56, 150.79, 'Wollongong', 'City'],
+    'IDN11055': [-36.49, 148.29, 'Alpine Centres', 'City'],
+    'IDQ10095': [-27.48, 153.04, 'Brisbane', 'City'],
+    'IDQ10610': [-27.94, 153.43, 'Gold Coast', 'City'],
+    'IDQ10611': [-26.60, 153.09, 'Sunshine Coast', 'City'],
+    'IDS10034': [-34.93, 138.58, 'Adelaide', 'City'],
+    'IDT13600': [-42.89, 147.33, 'Hobart', 'City'],
+    'IDT13610': [-41.42, 147.12, 'Launceston', 'City'],
+    'IDV10450': [-37.83, 144.98, 'Melbourne', 'City'],
+    'IDV10701': [-38.17, 144.38, 'Geelong', 'City'],
+    'IDV10702': [-38.31, 145.00, 'Mornington Peninsula', 'City'],
+    'IDW12300': [-31.92, 115.87, 'Perth', 'City'],
+    'IDQ10914': [-21.12, 149.22, 'Mackay', 'Town']
 }
 
 SENSOR_TYPES = {
@@ -74,27 +74,27 @@ SENSOR_TYPES = {
 }
 
 ICON_MAPPING = {
-    "1": "mdi:weather-sunny",	
-    "2": "mdi:weather-night",	
-    "3": "mdi:weather-partlycloudy",	
-    "4": "mdi:weather-cloudy",
-    "6": "mdi:weather-sunset",
-    "8": "mdi:weather-rainy",
-    "9": "mdi:weather-windy",
-    "10": "mdi:weather-sunset",
-    "11": "mdi:weather-rainy",
-    "12": "mdi:weather-pouring",
-    "13": "mdi:weather-sunset",
-    "14": "mdi:weather-snowy",
-    "15": "mdi:weather-snowy",
-    "16": "mdi:weather-lightning",
-    "17": "mdi:weather-rainy"                        
+    '1': 'mdi:weather-sunny',	
+    '2': 'mdi:weather-night',	
+    '3': 'mdi:weather-partlycloudy',	
+    '4': 'mdi:weather-cloudy',
+    '6': 'mdi:weather-sunset',
+    '8': 'mdi:weather-rainy',
+    '9': 'mdi:weather-windy',
+    '10': 'mdi:weather-sunset',
+    '11': 'mdi:weather-rainy',
+    '12': 'mdi:weather-pouring',
+    '13': 'mdi:weather-sunset',
+    '14': 'mdi:weather-snowy',
+    '15': 'mdi:weather-snowy',
+    '16': 'mdi:weather-lightning',
+    '17': 'mdi:weather-rainy'                   
 }
 
 def validate_days(days):
     """Check that days is within bounds."""
     if days not in range(1,7):
-        raise vol.error.Invalid('Forecast Days is out of Range')
+        raise vol.error.Invalid("Forecast Days is out of Range")
     return days
 
 def validate_product_id(product_id):
@@ -102,7 +102,7 @@ def validate_product_id(product_id):
     if product_id is None or not product_id:
         return product_id
     if not re.fullmatch(r'ID[A-Z]\d\d\d\d\d', product_id):
-        raise vol.error.Invalid('Malformed Product ID')
+        raise vol.error.Invalid("Malformed Product ID")
     return product_id
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
@@ -291,10 +291,10 @@ class BOMForecastData:
     def update(self):
         """Get the latest data from BOM."""
         file_obj = io.BytesIO()
-        ftp = ftplib.FTP("ftp.bom.gov.au")
+        ftp = ftplib.FTP('ftp.bom.gov.au')
         ftp.login()
-        ftp.cwd("anon/gen/fwo/")
-        ftp.retrbinary("RETR " + self._product_id + ".xml", file_obj.write)
+        ftp.cwd('anon/gen/fwo/')
+        ftp.retrbinary('RETR ' + self._product_id + '.xml', file_obj.write)
         file_obj.seek(0)
         ftp.quit()
         tree = xml.etree.ElementTree.parse(file_obj)
