@@ -262,16 +262,18 @@ class BOMForecastData:
     def get_reading(self, condition, index):
         """Return the value for the given condition."""
         if condition == 'detailed_summary':
-        	return self._data.find(_FIND_QUERY_2.format(index)).text
+            if PRODUCT_ID_LAT_LON_LOCATION[self._product_id][3] == 'City'
+                return self._data.find(_FIND_QUERY.format(index, 'forecast'))
+            else:
+                return self._data.find(_FIND_QUERY_2.format(index)).text
         
         find_query = (_FIND_QUERY.format(index, SENSOR_TYPES[condition][0]))
         state = self._data.find(find_query)
         if condition == 'icon':
-        	return ICON_MAPPING[state.text]
+            return ICON_MAPPING[state.text]
         if state is None:
             return 'n/a'
-        else:
-            return state.text
+        return state.text
 
     def get_issue_time_local(self):
         """Return the issue time of forecast."""
