@@ -262,10 +262,10 @@ class BOMForecastData:
     def get_reading(self, condition, index):
         """Return the value for the given condition."""
         if condition == 'detailed_summary':
-            if PRODUCT_ID_LAT_LON_LOCATION[self._product_id][3] == 'City'
-                return self._data.find(_FIND_QUERY.format(index, 'forecast'))
-            else:
+            if PRODUCT_ID_LAT_LON_LOCATION[self._product_id][3] == 'City':
                 return self._data.find(_FIND_QUERY_2.format(index)).text
+            else:
+                return self._data.find(_FIND_QUERY.format(index, 'forecast'))
         
         find_query = (_FIND_QUERY.format(index, SENSOR_TYPES[condition][0]))
         state = self._data.find(find_query)
