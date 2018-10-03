@@ -59,7 +59,8 @@ PRODUCT_ID_LAT_LON_LOCATION = {
     'IDV10450': [-37.83, 144.98, 'Melbourne'],
     'IDV10701': [-38.17, 144.38, 'Geelong'],
     'IDV10702': [-38.31, 145.00, 'Mornington Peninsula'],
-    'IDW12300': [-31.92, 115.87, 'Perth']
+    'IDW12300': [-31.92, 115.87, 'Perth'],
+    'IDQ10914': [-21.12, 149.22, 'Mackay']
 }
 
 SENSOR_TYPES = {
