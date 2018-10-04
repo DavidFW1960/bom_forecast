@@ -60,7 +60,6 @@ PRODUCT_ID_LAT_LON_LOCATION = {
     'IDV10701': [-38.17, 144.38, 'Geelong', 'City'],
     'IDV10702': [-38.31, 145.00, 'Mornington Peninsula', 'City'],
     'IDW12300': [-31.92, 115.87, 'Perth', 'City'],
-    'IDQ10914': [-21.12, 149.22, 'Mackay', 'Town']
     'IDD10161': [-23.70, 133.88, 'Alice Springs', 'Town'],
     'IDD10199': [-12.18, 136.78, 'Nhulunbuy', 'Town'],
     'IDD10200': [-14.47, 132.26, 'Katherine', 'Town'],
