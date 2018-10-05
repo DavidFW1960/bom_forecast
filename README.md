@@ -15,6 +15,7 @@ sensor:
     forecast_days: 3
     rest_of_today: True
     friendly: True
+    friendly_state_format: '{max}, {summary}'
     monitored_conditions:
       - 'max'
       - 'min'
@@ -35,4 +36,5 @@ Configuration variables:
 - **forecast_days** (*Optional*): The number of days of forecast you would like, maximum is 6. If not given, defaults to 6.
 - **rest_of_today** (*Optional*): Would you like to create a sensor for the forecast for the rest of today. Defaults to true.
 - **friendly** (*Optional*): Friendly mode will only create one sensor per day of forecast, and will have all the forecast information as sensor attributes. Defaults to false.
+- **friendly_state_format** (*Optional*): Friendly state format allows you to format the state of your forecast sensors when in friendly mode. For example, '{min} to {max}, {summary}' will display the state as '10 to 25, Cloudy'. Defaults to '{summary}'.
 - **monitored_conditions** (*Required*): A list of the conditions to monitor.
