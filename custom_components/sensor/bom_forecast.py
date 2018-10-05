@@ -39,6 +39,7 @@ CONF_DAYS = 'forecast_days'
 CONF_PRODUCT_ID = 'product_id'
 CONF_REST_OF_TODAY = 'rest_of_today'
 CONF_FRIENDLY = 'friendly'
+CONF_FRIENDLY_STATE_FORMAT = 'friendly_state_format'
 
 MIN_TIME_BETWEEN_UPDATES = datetime.timedelta(minutes=60)
 
@@ -125,7 +126,6 @@ PRODUCT_ID_LAT_LON_LOCATION = {
     'IDT13509': [-42.15, 145.33, 'Strahan', 'Town'],
     'IDT13510': [-42.12, 148.08, 'Swansea', 'Town'],
     'IDT13511': [-41.16, 146.17, 'Ulverstone', 'Town'],
-    'IDT66043': [39.78, -100.45, 'TTS Devonport', 'Town'],
     'IDV10703': [-36.12, 146.89, 'Albury/Wodonga', 'Town'],
     'IDV10704': [-37.83, 147.63, 'Bairnsdale', 'Town'],
     'IDV10705': [-37.56, 143.86, 'Ballarat', 'Town'],
@@ -134,7 +134,7 @@ PRODUCT_ID_LAT_LON_LOCATION = {
     'IDV10708': [-36.13, 144.75, 'Echuca', 'Town'],
     'IDV10710': [-37.74, 142.02, 'Hamilton', 'Town'],
     'IDV10711': [-36.71, 142.20, 'Horsham', 'Town'],
-    'IDV10712': [39.78, -100.45, 'Latrobe Valley', 'Town'],
+    'IDV10712': [-38.18, 146.27, 'Latrobe Valley', 'Town'],
     'IDV10714': [-34.18, 142.16, 'Mildura', 'Town'],
     'IDV10715': [-37.15, 146.43, 'Mount Buller', 'Town'],
     'IDV10716': [-37.83, 145.35, 'Mount Dandenong', 'Town'],
@@ -212,6 +212,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
         vol.All(cv.ensure_list, [vol.In(SENSOR_TYPES)]),
     vol.Optional(CONF_DAYS, default=6): validate_days,
     vol.Optional(CONF_FRIENDLY, default=False): cv.boolean,
+	vol.Optional(CONF_FRIENDLY_STATE_FORMAT, default='{summary}'):  cv.string,
     vol.Optional(CONF_NAME, default=''): cv.string,
     vol.Optional(CONF_PRODUCT_ID, default=''): validate_product_id,
     vol.Optional(CONF_REST_OF_TODAY, default=True): cv.boolean,
@@ -221,6 +222,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 
     days = config.get(CONF_DAYS)
     friendly = config.get(CONF_FRIENDLY)
+    friendly_state_format = config.get(CONF_FRIENDLY_STATE_FORMAT)
     monitored_conditions = config.get(CONF_MONITORED_CONDITIONS)
     name = config.get(CONF_NAME)
     product_id = config.get(CONF_PRODUCT_ID)
@@ -245,7 +247,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     if friendly:
         for index in range(start, config.get(CONF_DAYS)+1):
             add_entities([BOMForecastSensorFriendly(bom_forecast_data, monitored_conditions,
-            index, name, product_id)])    	
+            index, name, product_id, friendly_state_format)])    	
     else:
         for index in range(start, config.get(CONF_DAYS)+1):
             for condition in monitored_conditions:    
@@ -308,10 +310,11 @@ class BOMForecastSensor(Entity):
 class BOMForecastSensorFriendly(Entity):
     """Implementation of a user friendly BOM forecast sensor."""
 
-    def __init__(self, bom_forecast_data, conditions, index, name, product_id):
+    def __init__(self, bom_forecast_data, conditions, index, name, product_id, friendly_state_format):
         """Initialize the sensor."""
         self._bom_forecast_data = bom_forecast_data
         self._conditions = conditions
+        self._friendly_state_format = friendly_state_format
         self._index = index
         self._name = name
         self._product_id = product_id
@@ -327,7 +330,9 @@ class BOMForecastSensorFriendly(Entity):
     @property
     def state(self):
         """Return the state of the sensor."""
-        return self._bom_forecast_data.get_reading('summary', self._index)
+        for condition in self._conditions:
+            self._friendly_state_format = self._friendly_state_format.replace('{{{}}}'.format(condition), self._bom_forecast_data.get_reading(condition, self._index))
+        return self._friendly_state_format
 
     @property
     def device_state_attributes(self):
@@ -337,7 +342,7 @@ class BOMForecastSensorFriendly(Entity):
             ATTR_ATTRIBUTION: CONF_ATTRIBUTION,
         }
         for condition in self._conditions:
-        	attr[SENSOR_TYPES[condition][1]] = self._bom_forecast_data.get_reading(condition, self._index),
+        	attr[SENSOR_TYPES[condition][1]] = self._bom_forecast_data.get_reading(condition, self._index)
         if self._name:
             attr['Name'] = self._name
 
