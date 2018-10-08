@@ -9,7 +9,8 @@ import ftplib
 import io
 import logging
 import re
-import xml
+#import xml
+import xml.etree.ElementTree
 
 import voluptuous as vol
 
@@ -176,9 +177,9 @@ SENSOR_TYPES = {
 }
 
 ICON_MAPPING = {
-    '1': 'mdi:weather-sunny',	
-    '2': 'mdi:weather-night',	
-    '3': 'mdi:weather-partlycloudy',	
+    '1': 'mdi:weather-sunny',
+    '2': 'mdi:weather-night',
+    '3': 'mdi:weather-partlycloudy',
     '4': 'mdi:weather-cloudy',
     '6': 'mdi:weather-sunset',
     '8': 'mdi:weather-rainy',
@@ -190,7 +191,7 @@ ICON_MAPPING = {
     '14': 'mdi:weather-snowy',
     '15': 'mdi:weather-snowy',
     '16': 'mdi:weather-lightning',
-    '17': 'mdi:weather-rainy'                   
+    '17': 'mdi:weather-rainy'
 }
 
 def validate_days(days):
@@ -212,7 +213,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
         vol.All(cv.ensure_list, [vol.In(SENSOR_TYPES)]),
     vol.Optional(CONF_DAYS, default=6): validate_days,
     vol.Optional(CONF_FRIENDLY, default=False): cv.boolean,
-	vol.Optional(CONF_FRIENDLY_STATE_FORMAT, default='{summary}'):  cv.string,
+    vol.Optional(CONF_FRIENDLY_STATE_FORMAT, default='{summary}'):  cv.string,
     vol.Optional(CONF_NAME, default=''): cv.string,
     vol.Optional(CONF_PRODUCT_ID, default=''): validate_product_id,
     vol.Optional(CONF_REST_OF_TODAY, default=True): cv.boolean,
@@ -247,7 +248,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     if friendly:
         for index in range(start, config.get(CONF_DAYS)+1):
             add_entities([BOMForecastSensorFriendly(bom_forecast_data, monitored_conditions,
-            index, name, product_id, friendly_state_format)])    	
+            index, name, product_id, friendly_state_format)])
     else:
         for index in range(start, config.get(CONF_DAYS)+1):
             for condition in monitored_conditions:    
@@ -280,7 +281,7 @@ class BOMForecastSensor(Entity):
     def state(self):
         """Return the state of the sensor."""
         return self._bom_forecast_data.get_reading(
-        	self._condition, self._index)
+            self._condition, self._index)
 
     @property
     def device_state_attributes(self):
@@ -342,7 +343,9 @@ class BOMForecastSensorFriendly(Entity):
             ATTR_ATTRIBUTION: CONF_ATTRIBUTION,
         }
         for condition in self._conditions:
-        	attr[SENSOR_TYPES[condition][1]] = self._bom_forecast_data.get_reading(condition, self._index)
+            attribute = self._bom_forecast_data.get_reading(condition, self._index)
+            if attribute != 'n/a':
+                attr[SENSOR_TYPES[condition][1]] = attribute
         if self._name:
             attr['Name'] = self._name
 
@@ -379,6 +382,8 @@ class BOMForecastData:
         if condition == 'icon':
             return ICON_MAPPING[state.text]
         if state is None:
+            if condition == 'possible_rainfall':
+                return '0 mm'
             return 'n/a'
         return state.text
 
@@ -394,7 +399,7 @@ class BOMForecastData:
         """Return the start time of forecast."""
         return self._data.find("./forecast/area[@type='location']/"
                                "forecast-period[@index='{}']".format(
-                               	index)).get("start-time-local")
+                                index)).get("start-time-local")
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
