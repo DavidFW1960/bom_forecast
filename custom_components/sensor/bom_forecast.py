@@ -332,8 +332,8 @@ class BOMForecastSensorFriendly(Entity):
     def state(self):
         """Return the state of the sensor."""
         for condition in self._conditions:
-            self._friendly_state_format = self._friendly_state_format.replace('{{{}}}'.format(condition), self._bom_forecast_data.get_reading(condition, self._index))
-        return self._friendly_state_format
+            friendly_state = self._friendly_state_format.replace('{{{}}}'.format(condition), self._bom_forecast_data.get_reading(condition, self._index))
+        return friendly_state
 
     @property
     def device_state_attributes(self):
