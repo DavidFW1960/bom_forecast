@@ -172,7 +172,8 @@ SENSOR_TYPES = {
     'chance_of_rain': ['probability_of_precipitation', 'Chance of Rain', '%', 'mdi:water-percent'],
     'possible_rainfall': ['precipitation_range', 'Possible Rainfall', 'mm', 'mdi:water'],
     'summary': ['precis', 'Summary', None, 'mdi:text'],
-    'detailed_summary': ['forecast', 'Detailed Summary', None, 'mdi:text']
+    'detailed_summary': ['forecast', 'Detailed Summary', None, 'mdi:text'],
+    'icon': ['forecast_icon_code', 'Icon', None, None]
 }
 
 ICON_MAPPING = {
