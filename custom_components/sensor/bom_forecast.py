@@ -167,13 +167,12 @@ PRODUCT_ID_LAT_LON_LOCATION = {
 }
 
 SENSOR_TYPES = {
-    'max': ['air_temperature_maximum', 'Max Temp C', TEMP_CELSIUS],
-    'min': ['air_temperature_minimum', 'Min Temp C', TEMP_CELSIUS],
-    'chance_of_rain': ['probability_of_precipitation', 'Chance of Rain', None],
-    'possible_rainfall': ['precipitation_range', 'Possible Rainfall', None],
-    'summary': ['precis', 'Summary', None],
-    'detailed_summary': ['forecast', 'Detailed Summary', None],
-    'icon': ['forecast_icon_code', 'Icon', None],
+    'max': ['air_temperature_maximum', 'Max Temp C', TEMP_CELSIUS, 'mdi:thermometer'],
+    'min': ['air_temperature_minimum', 'Min Temp C', TEMP_CELSIUS, 'mdi:thermometer'],
+    'chance_of_rain': ['probability_of_precipitation', 'Chance of Rain', '%', 'mdi:water-percent'],
+    'possible_rainfall': ['precipitation_range', 'Possible Rainfall', 'mm', 'mdi:water'],
+    'summary': ['precis', 'Summary', None, 'mdi:text'],
+    'detailed_summary': ['forecast', 'Detailed Summary', None, 'mdi:text']
 }
 
 ICON_MAPPING = {
@@ -280,8 +279,14 @@ class BOMForecastSensor(Entity):
     @property
     def state(self):
         """Return the state of the sensor."""
-        return self._bom_forecast_data.get_reading(
+        reading = self._bom_forecast_data.get_reading(
             self._condition, self._index)
+            
+        if  self._condition == 'chance_of_rain':
+        	return reading.replace('%', '')
+        if  self._condition == 'possible_rainfall':
+        	return reading.replace(' mm', '')        	
+        return reading
 
     @property
     def device_state_attributes(self):
@@ -293,6 +298,7 @@ class BOMForecastSensor(Entity):
             ATTR_PRODUCT_ID: self._product_id,
             ATTR_PRODUCT_LOCATION: PRODUCT_ID_LAT_LON_LOCATION[self._product_id][2],
             ATTR_START_TIME_LOCAL: self._bom_forecast_data.get_start_time_local(self._index),
+            ATTR_ICON: SENSOR_TYPES[self._condition][3]
         }
         if self._name:
             attr[ATTR_PRODUCT_NAME] = self._name
