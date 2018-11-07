@@ -381,9 +381,15 @@ class BOMForecastData:
         """Return the value for the given condition."""
         if condition == 'detailed_summary':
             if PRODUCT_ID_LAT_LON_LOCATION[self._product_id][3] == 'City':
-                return self._data.find(_FIND_QUERY_2.format(index)).text
+                s = self._data.find(_FIND_QUERY_2.format(index)).text
+                if len(s) > 255:
+                    s = s[:255]
+                return s
             else:
-                return self._data.find(_FIND_QUERY.format(index, 'forecast')).text
+                s = self._data.find(_FIND_QUERY.format(index, 'forecast')).text
+                if len(s) > 255:
+                    s = s[:255]
+                return s
         
         find_query = (_FIND_QUERY.format(index, SENSOR_TYPES[condition][0]))
         state = self._data.find(find_query)
@@ -393,7 +399,10 @@ class BOMForecastData:
             if condition == 'possible_rainfall':
                 return '0 mm'
             return 'n/a'
-        return state.text
+        s = state.text
+        if len(s) > 255:
+            s = s[:255]
+        return s
 
     def get_issue_time_local(self):
         """Return the issue time of forecast."""
