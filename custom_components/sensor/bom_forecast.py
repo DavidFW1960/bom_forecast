@@ -381,15 +381,10 @@ class BOMForecastData:
         """Return the value for the given condition."""
         if condition == 'detailed_summary':
             if PRODUCT_ID_LAT_LON_LOCATION[self._product_id][3] == 'City':
-                s = self._data.find(_FIND_QUERY_2.format(index)).text
-                if len(s) > 255:
-                    s = s[:255]
-                return s
+                detailed_summary = self._data.find(_FIND_QUERY_2.format(index)).text
             else:
-                s = self._data.find(_FIND_QUERY.format(index, 'forecast')).text
-                if len(s) > 255:
-                    s = s[:255]
-                return s
+                detailed_summary = self._data.find(_FIND_QUERY.format(index, 'forecast')).text
+            return (detailed_summary[:251] + '...') if len(detailed_summary) > 251 else detailed_summary
         
         find_query = (_FIND_QUERY.format(index, SENSOR_TYPES[condition][0]))
         state = self._data.find(find_query)
