@@ -395,9 +395,7 @@ class BOMForecastData:
                 return '0 mm'
             return 'n/a'
         s = state.text
-        if len(s) > 255:
-            s = s[:255]
-        return s
+        return (s[:251] + '...') if len(s) > 251 else s
 
     def get_issue_time_local(self):
         """Return the issue time of forecast."""
