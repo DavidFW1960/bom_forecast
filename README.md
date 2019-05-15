@@ -4,7 +4,15 @@ The `bom forecast` sensor platform uses the [Australian Bureau of Meteorology (B
 - A name is optional but if multiple BOM weather stations are used a name will be required.
 - The sensor checks for new data every minute, starting 30 minutes after the timestamp of the most recent data as the data is updated every half-hour.
 
-To add the BOM weather observation to your installation, add the following to your `configuration.yaml` file:
+To add the BOM weather observation to your installation, create this folder strictire in your /config directory:
+- “custom_components/bom_forecast”.
+
+Then, drop the following files into that folder:
+- \_\_init__.py
+- manifest.json
+- sensor.py
+
+Finally, add the following to your `configuration.yaml` file:
 
 ```yaml
 # Example configuration.yaml entry
@@ -27,7 +35,7 @@ sensor:
 
 To get the Product ID for any BOM city:
 - Go to [this](http://www.bom.gov.au/nsw/observations/map.shtml) website and search for "City Forecast", or "Town Forecast".
-- The Product ID for your city will be in the left most column, and will look like "IDV10450"
+- The Product ID for your city will be in the left most column, or at the bottom of the page, and will look like "IDV10450"
 
 Configuration variables:
 
