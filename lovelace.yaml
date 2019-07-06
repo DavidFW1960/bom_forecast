@@ -1,0 +1,11 @@
+          - type: entities
+            title: BOM Forecast
+            show_header_toggle: false
+            entities:
+              - sensor.bom_forecast_0
+              - sensor.bom_forecast_1
+              - sensor.bom_forecast_2
+              - sensor.bom_forecast_3
+              - sensor.bom_forecast_4
+              - sensor.bom_forecast_5
+              - sensor.bom_forecast_6
