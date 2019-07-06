@@ -51,6 +51,10 @@ Configuration variables:
 - **monitored_conditions** (*Required*): A list of the conditions to monitor.
 
 ## Alternate Install
-Download my weather.yaml package and install in your /config/packages folder. Make sure your configuration.yaml includes packages folder. You will also need to download [bom_icons.zip](https://github.com/DavidFW1960/bom_forecast/blob/master/bom_icons.zip) in order to be able to create the lovelace cards looking like this:
+Download my [weather.yaml](https://github.com/DavidFW1960/bom_forecast/blob/master/weather.yaml) package and install in your /config/packages folder. Make sure your configuration.yaml includes packages folder. You will also need to download [bom_icons.zip](https://github.com/DavidFW1960/bom_forecast/blob/master/bom_icons.zip) in order to be able to create the lovelace cards looking like this:
 
 ![BOM Forecast Card](bom_forecast.png)
+
+The package also 'fixes' the problem whereby the maximum and minimum temperatures are no longer reported by BOM as it will use todays max and the minimum for the day when these values are not returned. It also includes the current text which is used in my custom_card for BOM.
+BOM also changes the icon displayed for some of their icons at night so there is in the package an automation to take care of that at 6pm.
+The Lovelace card, [lovelace.yaml](https://github.com/DavidFW1960/bom_forecast/blob/master/lovelace.yaml) should be cut/pasted into your lovelace where you want to see the card.
