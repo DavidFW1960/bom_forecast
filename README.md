@@ -18,11 +18,11 @@ Finally, add the following to your `configuration.yaml` file:
 # Example configuration.yaml entry
 sensor:
   - platform: bom_forecast
-    product_id: IDV10450
-    name: Melbourne
-    forecast_days: 3
-    rest_of_today: True
-    friendly: True
+    product_id: !secret my_bom_product_id
+    name: !secret my_bom_name
+    forecast_days: 6
+    rest_of_today: true
+    friendly: false
     friendly_state_format: '{max}, {summary}'
     monitored_conditions:
       - 'max'
@@ -31,7 +31,10 @@ sensor:
       - 'possible_rainfall'
       - 'summary'
       - 'detailed_summary'
+      - 'icon'
 ```
+
+This example uses the secrets.yaml file for the product_id and name. Up to you if you want to do this or not.
 
 To get the Product ID for any BOM city:
 - Go to [this](http://www.bom.gov.au/nsw/observations/map.shtml) website and search for "City Forecast", or "Town Forecast".
@@ -46,3 +49,6 @@ Configuration variables:
 - **friendly** (*Optional*): Friendly mode will only create one sensor per day of forecast, and will have all the forecast information as sensor attributes. Defaults to false.
 - **friendly_state_format** (*Optional*): Friendly state format allows you to format the state of your forecast sensors when in friendly mode. For example, '{min} to {max}, {summary}' will display the state as '10 to 25, Cloudy'. Defaults to '{summary}'.
 - **monitored_conditions** (*Required*): A list of the conditions to monitor.
+
+## Alternate Install
+Download my weather.yaml package and install in your /config/packages folder. Make sure your configuration.yaml includes packages folder.
