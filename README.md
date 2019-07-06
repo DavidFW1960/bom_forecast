@@ -52,3 +52,4 @@ Configuration variables:
 
 ## Alternate Install
 Download my weather.yaml package and install in your /config/packages folder. Make sure your configuration.yaml includes packages folder. You will also need to download [bom_icons.zip](https://github.com/DavidFW1960/bom_forecast/blob/master/bom_icons.zip) in order to be able to create the lovelace cards looking like this:
+![BOM Forecast Card](bom_forecast.png)
