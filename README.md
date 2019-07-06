@@ -1,16 +1,21 @@
 The `bom forecast` sensor platform uses the [Australian Bureau of Meteorology (BOM)](http://www.bom.gov.au) as a source for forecast meteorological data.
 
-- Each sensor will be given the `device_id` of "bom [optionalname] friendlyname units"
+- Each sensor will be given the `device_id` of "bom [optionalname] friendly name units"
 - A name is optional but if multiple BOM weather stations are used a name will be required.
 - The sensor checks for new data every minute, starting 30 minutes after the timestamp of the most recent data as the data is updated every half-hour.
 
-To add the BOM weather observation to your installation, create this folder strictire in your /config directory:
+To add the BOM weather observation to your installation, create this folder structure in your /config directory:
 - “custom_components/bom_forecast”.
 
 Then, drop the following files into that folder:
 - \_\_init__.py
 - manifest.json
 - sensor.py
+
+## HACS Support
+Add this Integration to HACS repo is https://github.com/DavidFW1960/bom_forecast
+
+Either install the package (see below under alternate installation)
 
 Finally, add the following to your `configuration.yaml` file:
 
@@ -35,6 +40,7 @@ sensor:
 ```
 
 This example uses the secrets.yaml file for the product_id and name. Up to you if you want to do this or not.
+If you use the package below you will still need to edit in the correct details.
 
 To get the Product ID for any BOM city:
 - Go to [this](http://www.bom.gov.au/nsw/observations/map.shtml) website and search for "City Forecast", or "Town Forecast".
@@ -55,6 +61,7 @@ Download my [weather.yaml](https://github.com/DavidFW1960/bom_forecast/blob/mast
 
 ![BOM Forecast Card](bom_forecast.png)
 
-The package also 'fixes' the problem whereby the maximum and minimum temperatures are no longer reported by BOM as it will use todays max and the minimum for the day when these values are not returned. It also includes the current text which is used in my custom_card for BOM.
+The package also 'fixes' the problem whereby the maximum and minimum temperatures are no longer reported by BOM as it will use todays max and the minimum for the day when these values are not returned. It also includes the current text which is used in my [custom_card for BOM](https://github.com/DavidFW1960/bom-weather-card).
+
 BOM also changes the icon displayed for some of their icons at night so there is in the package an automation to take care of that at 6pm.
 The Lovelace card, [lovelace.yaml](https://github.com/DavidFW1960/bom_forecast/blob/master/lovelace.yaml) should be cut/pasted into your lovelace where you want to see the card.
