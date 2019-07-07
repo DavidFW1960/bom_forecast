@@ -1,9 +1,10 @@
 The `bom forecast` sensor platform uses the [Australian Bureau of Meteorology (BOM)](http://www.bom.gov.au) as a source for forecast meteorological data.
 
-- Each sensor will be given the `device_id` of "bom [optionalname] friendly name units"
+- Each sensor will be given the `device_id` of "bom [optionalname] friendly name units" Example: sensor.bom_gosford_chance_of_rain_0
 - A name is optional but if multiple BOM weather stations are used a name will be required.
 - The sensor checks for new data every minute, starting 30 minutes after the timestamp of the most recent data as the data is updated every half-hour.
 
+## Manual Installation 
 To add the BOM weather observation to your installation, create this folder structure in your /config directory:
 - “custom_components/bom_forecast”.
 
@@ -15,16 +16,17 @@ Then, drop the following files into that folder:
 ## HACS Support
 Add this Integration to HACS repo is https://github.com/DavidFW1960/bom_forecast
 
-Either install the package (see below under alternate installation)
+## Configuration
+Either install the package [weather.yaml](https://github.com/DavidFW1960/bom_forecast/blob/master/weather.yaml) (see below under alternate installation)
 
-Finally, add the following to your `configuration.yaml` file:
+Or manually, add the following to your `configuration.yaml` file:
 
 ```yaml
 # Example configuration.yaml entry
 sensor:
   - platform: bom_forecast
     product_id: !secret my_bom_product_id
-    name: !secret my_bom_name
+    name: !secret my_bom_name         #In my examples I use Gosford
     forecast_days: 6
     rest_of_today: true
     friendly: false
