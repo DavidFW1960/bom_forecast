@@ -1,4 +1,4 @@
-The `bom forecast` sensor platform uses the [Australian Bureau of Meteorology (BOM)](http://www.bom.gov.au) as a source for forecast meteorological data.
+The `bom forecast` sensor platform uses the [Australian Bureau of Meteorology (BOM)](http://www.bom.gov.au) as a source for forecast meteorological data. This is an updated version of a fork from bremor/bom_forecast
 
 - Each sensor will be given the `device_id` of "bom [optionalname] friendly name units" Example: sensor.bom_gosford_chance_of_rain_0
 - A name is optional but if multiple BOM weather stations are used a name will be required.
@@ -14,7 +14,7 @@ Then, drop the following files into that folder:
 - sensor.py
 
 ## HACS Support
-Add this Integration to HACS repo is https://github.com/DavidFW1960/bom_forecast
+This integration is now part of the default HACS store. You should not need to add it manually. Add this Integration to HACS repo is https://github.com/DavidFW1960/bom_forecast 
 
 ## Configuration
 Either install the package [weather.yaml](https://github.com/DavidFW1960/bom_forecast/blob/master/weather.yaml) (see below under alternate installation)
