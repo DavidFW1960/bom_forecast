@@ -5,5 +5,7 @@ A name is optional but if multiple BOM weather stations are used a name will be 
 The sensor checks for new data every minute, starting 30 minutes after the timestamp of the most recent data as the data is updated every half-hour.
 
 With this component you can create a lovelace card like this:
+
 ![BOM Forecast Card](bom_forecast.png)
+
 Or you can combine with the BOM Weather Custom Card.
