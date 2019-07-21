@@ -6,6 +6,6 @@ The sensor checks for new data every minute, starting 30 minutes after the times
 
 With this component you can create a lovelace card like this:
 
-![BOM Forecast Card](bom_forecast.png)
+![BOM Forecast Card](https://github.com/DavidFW1960/bom_forecast/blob/master/bom_forecast.png)
 
 Or you can combine with the BOM Weather Custom Card.
