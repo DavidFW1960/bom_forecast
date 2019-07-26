@@ -178,7 +178,7 @@ automation:
     - event: start
       platform: homeassistant
     - platform: time
-      at: '18:01:00'
+      at: '18:00:00'
   action:
     - service: homeassistant.update_entity
       entity_id: sensor.bom_forecast_0
