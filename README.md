@@ -49,6 +49,10 @@ To get the Product ID for any BOM city:
 - Go to [this](http://www.bom.gov.au/nsw/observations/map.shtml) website and search for "City Forecast", or "Town Forecast".
 - The Product ID for your city will be in the left most column, or at the bottom of the page, and will look like "IDV10450"
 
+![Here is an example of where to find product id](bom_forecast_product.png)
+
+NOTE: The product id will be DIFFERENT to the one you use for the Core BOM Sensor Configuration. The numbers will not be the same.
+
 Configuration variables:
 
 - **product_id** (*Optional*): The Product ID string as identified from the BOM website.  If not given, defaults to the closest city.
