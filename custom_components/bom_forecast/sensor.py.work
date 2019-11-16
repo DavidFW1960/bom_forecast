@@ -24,8 +24,8 @@ import homeassistant.helpers.config_validation as cv
 
 _FIND_QUERY = "./forecast/area[@type='location']/forecast-period[@index='{}']/*[@type='{}']"
 _FIND_QUERY_2 = "./forecast/area[@type='metropolitan']/forecast-period[@index='{}']/text[@type='forecast']"
-_FIND_QUERY_3 = "./forecast/area[@type='metropolitan']/forecast-period[@index='{}']/text[@type='uv_alert']"
-_FIND_QUERY_4 = "./forecast/area[@type='metropolitan']/forecast-period[@index='{}']/text[@type='fire_danger']"
+_FIND_QUERY_3 = "./forecast/area[@type='metropolitan']/forecast-period[@index='{}']/*[@type='uv_alert']"
+_FIND_QUERY_4 = "./forecast/area[@type='metropolitan']/forecast-period[@index='{}']/*[@type='fire_danger']"
             
 _LOGGER = logging.getLogger(__name__)
 
