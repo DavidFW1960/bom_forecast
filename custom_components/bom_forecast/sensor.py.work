@@ -392,17 +392,22 @@ class BOMForecastData:
                 detailed_summary = self._data.find(_FIND_QUERY.format(index, 'forecast')).text
             return (detailed_summary[:251] + '...') if len(detailed_summary) > 251 else detailed_summary
         
+        if condition == 'uv_alert':
+            if PRODUCT_ID_LAT_LON_LOCATION[self._product_id][3] == 'City':
+                uv_alert_data = self._data.find(_FIND_QUERY_3.format(index)).text
+                if uv_alert_data:
+                    uv_alert = self._data.find(_FIND_QUERY_3.format(index)).text
+            else:
+                uv_alert_data = self._data.find(_FIND_QUERY.format(index, 'uv_alert')).text
+                if uv_alert_data:
+                    uv_alert = self._data.find(_FIND_QUERY.format(index, 'uv_alert')).text
+            return uv_alert
+
         find_query = (_FIND_QUERY.format(index, SENSOR_TYPES[condition][0]))
         state = self._data.find(find_query)
 
         if condition == 'icon':
             return ICON_MAPPING[state.text]
-        if condition == 'uv_alert':
-            uv_alert = self._data.find(_FIND_QUERY_3.format(index, 'uv_alert')).text
-            return uv_alert
-        if condition == 'fire_danger':
-            fire_danger =  self._data.find(_FIND_QUERY_4.format(index, 'fire_danger')).text
-            return fire_danger
         if state is None:
             if condition == 'possible_rainfall':
                 return '0 mm'
