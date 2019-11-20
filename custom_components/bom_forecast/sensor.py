@@ -177,8 +177,8 @@ SENSOR_TYPES = {
                           'mdi:water'],
     'summary': ['precis', 'Summary', None, 'mdi:text'],
     'detailed_summary': ['forecast', 'Detailed Summary', None, 'mdi:text'],
-    'uv_alert': ['uv_alert', 'UV Alert', None, 'mdi:text'],
-    'fire_danger': ['fire_danger', 'Fire Danger', None, 'mdi:text'],
+    'uv_alert': ['uv_alert', 'UV Alert', None, 'mdi:weather-sunny'],
+    'fire_danger': ['fire_danger', 'Fire Danger', None, 'mdi:fire'],
     'icon': ['forecast_icon_code', 'Icon', None, None]
 }
 
