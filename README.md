@@ -42,8 +42,8 @@ sensor:
       - 'summary'
       - 'detailed_summary'
       - 'icon'
-	  - 'uv_alert'
-	  - 'fire_danger'
+      - 'uv_alert'
+      - 'fire_danger'
 ```
 
 This example uses the secrets.yaml file for the product_id and name. Up to you if you want to do this or not.
