@@ -5,6 +5,8 @@ The `bom forecast` sensor platform uses the [Australian Bureau of Meteorology (B
 - A name is optional but if multiple BOM weather stations are used a name will be required.
 - The sensor checks for new data every minute, starting 30 minutes after the timestamp of the most recent data as the data is updated every half-hour.
 
+Thanks to @exxamalte for the code assistance to enable the new conditions. (uv_alert & fire_danger)
+
 ## Manual Installation 
 To add the BOM weather observation to your installation, create this folder structure in your /config directory:
 - “custom_components/bom_forecast”.
@@ -40,6 +42,8 @@ sensor:
       - 'summary'
       - 'detailed_summary'
       - 'icon'
+	  - 'uv_alert'
+	  - 'fire_danger'
 ```
 
 This example uses the secrets.yaml file for the product_id and name. Up to you if you want to do this or not.
