@@ -11,7 +11,7 @@ See the new uv_alert and fire_danger monitored conditions. Checkout readme in th
 With this component you can create a lovelace card like this:
 
 
-![BOM Forecast Card](https://github.com/DavidFW1960/bom_forecast/blob/master/bom_forecast.png)
+![BOM Forecast Card](https://raw.githubusercontent.com/DavidFW1960/bom_forecast/master/bom_forecast.png)
 
 
 
