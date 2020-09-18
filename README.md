@@ -69,7 +69,7 @@ Configuration variables:
 - **monitored_conditions** (*Required*): A list of the conditions to monitor.
 
 ## Alternate Install
-Download my [weather.yaml](https://github.com/DavidFW1960/bom_forecast/blob/master/weather.yaml) package and install in your /config/packages folder. Make sure your configuration.yaml includes packages folder. You will also need to download [bom_icons.zip](https://github.com/DavidFW1960/bom_forecast/blob/master/bom_icons.zip) in order to be able to create the lovelace cards looking like this:
+Download my [weather.yaml](https://github.com/DavidFW1960/bom_forecast/blob/master/weather.yaml) package (NOTE: The Template sensors as of 0.115.x have deprecated the entity_id. If you are using HA prior to 0.115.x there is an older weather pre0.115.s.yaml file you can use) and install in your /config/packages folder. Make sure your configuration.yaml includes packages folder. You will also need to download [bom_icons.zip](https://github.com/DavidFW1960/bom_forecast/blob/master/bom_icons.zip) in order to be able to create the lovelace cards looking like this:
 
 ![BOM Forecast Card](bom_forecast.png)
 
