@@ -73,7 +73,7 @@ Download my [weather.yaml](https://github.com/DavidFW1960/bom_forecast/blob/mast
 
 ![BOM Forecast Card](bom_forecast.png)
 
-The package also 'fixes' the problem whereby the maximum and minimum temperatures are no longer reported by BOM as it will use todays max and the minimum for the day when these values are not returned. It also includes the current text which is used in my [custom_card for BOM](https://github.com/DavidFW1960/bom-weather-card).
+The package also 'fixes' the problem whereby the maximum and minimum temperatures are no longer reported by BOM as it will use todays max and the minimum for the day when these values are not returned. It also includes the current text which is used in my [custom_card for BOM](https://github.com/DavidFW1960/bom-weather-card). NOTE: This example and template sensors need the HA Core BOM component to be configured otherwise there won't be any way to get the temperature history.
 
 BOM also changes the icon displayed for some of their icons at night so there is in the package an automation to take care of that at 6pm.
 The Lovelace card, [lovelace.yaml](https://github.com/DavidFW1960/bom_forecast/blob/master/lovelace.yaml) should be cut/pasted into your lovelace where you want to see the card.
