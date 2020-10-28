@@ -1,43 +1,15 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 
-The bom forecast sensor platform uses the Australian Bureau of Meteorology (BOM) as a source for forecast meteorological data. This is an updated version of a fork from bremor/bom_forecast
+## IMPORTANT NOTE
 
+This Custom Integration is now deprecated and will eventually be removed from HACS and may or may not continue to work (unless BOM changes something)
+The reason for this is that Home Assistant as of version 0.117.0 have removed the BOM Sensor and Radar.
 
-Each sensor will be given the device_id of "bom [optionalname] friendly name units" Example: sensor.bom_gosford_chance_of_rain_0
-A name is optional but if multiple BOM weather stations are used a name will be required.
-The sensor checks for new data every minute, starting 30 minutes after the timestamp of the most recent data as the data is updated every half-hour.
+Brendan who originally wrote this component has now made a NEW BOM component that replaces both the BOM Sensor AND this FTP component. His new component uses a BOM API.
 
-Thanks to @exxamalte for the code assistance to enable the new conditions.
-See the new uv_alert and fire_danger monitored conditions. Checkout readme in the repository for full details.
+Please download the new [BOM Component by Brendan here] (https://github.com/bremor/bureau_of_meteorology)
+and the [Radar Card by Simon here] (https://github.com/theOzzieRat/bom-radar-card)
 
-With this component you can create a lovelace card like this:
+You can add both to HACS by adding a custom repository. (Integration for BOM and Lovelace for Radar)
 
-
-![BOM Forecast Card](https://raw.githubusercontent.com/DavidFW1960/bom_forecast/master/bom_forecast.png)
-
-
-
-Or you can combine with the BOM Weather Custom Card.
-
-
-Full configuration for this component will look like this:
-
-```yaml
-  - platform: bom_forecast
-    product_id: !secret my_bom_product_id
-    name: !secret my_bom_name
-    forecast_days: 6
-    rest_of_today: true
-    friendly: false
-    friendly_state_format: '{max}, {summary}'
-    monitored_conditions:
-      - 'max'
-      - 'min'
-      - 'chance_of_rain'
-      - 'possible_rainfall'
-      - 'summary'
-      - 'detailed_summary'
-      - 'icon'
-      - 'uv_alert'
-      - 'fire_danger'
-```
+Note that my custom animated card works with the new component but will require some changes to the configuration. I will detail this in the repo for the card.
